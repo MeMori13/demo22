@@ -1,0 +1,47 @@
+CREATE TABLE Material_type (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    material_type VARCHAR(255) NOT NULL,
+    defect_percentage DECIMAL(5,2) NOT NULL
+);
+
+CREATE TABLE Materials (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    material_name VARCHAR(255) NOT NULL,
+    material_type VARCHAR(255) NOT NULL,
+    unit_price DECIMAL(10,2) NOT NULL,
+    stock_quantity INT NOT NULL,
+    min_quantity INT NOT NULL,
+    package_quantity INT NOT NULL,
+    unit_of_measure VARCHAR(50) NOT NULL,
+    material_type_id INT NOT NULL,
+    FOREIGN KEY (material_type_id) REFERENCES Material_type(id)
+);
+
+CREATE TABLE Product_type (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    product_type VARCHAR(255) NOT NULL,
+    type_coefficient DECIMAL(5,2) NOT NULL
+);
+
+CREATE TABLE Products (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    product_type VARCHAR(255) NOT NULL,
+    product_name VARCHAR(255) NOT NULL,
+    article VARCHAR(50) NOT NULL,
+    min_price DECIMAL(10,2) NOT NULL,
+    roll_width DECIMAL(5,2) NOT NULL,
+    product_type_id INT NOT NULL,
+    FOREIGN KEY (product_type_id) REFERENCES Product_type(id)
+);
+
+CREATE TABLE Product_materials (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    product_name VARCHAR(255) NOT NULL,
+    material_name VARCHAR(255) NOT NULL,
+    required_quantity DECIMAL(10,2) NOT NULL,
+    product_id INT NOT NULL,
+    material_id INT NOT NULL,
+    FOREIGN KEY (product_id) REFERENCES Products(id),
+    FOREIGN KEY (material_id) REFERENCES Materials(id)
+);
+
